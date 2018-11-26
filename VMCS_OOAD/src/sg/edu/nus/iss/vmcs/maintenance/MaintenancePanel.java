@@ -67,8 +67,8 @@ public class MaintenancePanel extends Dialog {
 	private LabelledDisplay password;
 	private LabelledDisplay collectCash;
 	private Button exitBtn;
-	private CoinDisplay cDisplay; // need to be access from other class.
-	private DrinkDisplay dDisplay; // need to be access from other class.
+	private Display cDisplay; // need to be access from other class.
+	private Display dDisplay; // need to be access from other class.
 	private ButtonItem totalCash;
 	private Button transferCash;
 	private WarningDisplay validPswd;
@@ -124,12 +124,12 @@ public class MaintenancePanel extends Dialog {
 		ActionListener totalCashListen =  MaintenanceListenerFactory.createListener("Total Cash Button Listener", mc);
 		//TotalCashButtonListener tl;
 
-		//here
+	
 		//tl = new TotalCashButtonListener(mctrl);
 		totalCash.addListener(totalCashListen);
 
 		transferCash = new Button("Press to Collect All Cash");
-		//here
+	
 		ActionListener transferCashListen = MaintenanceListenerFactory.createListener("Transfer Cash Button Listener", mc);
 		transferCash.addActionListener(transferCashListen);
 
@@ -194,7 +194,7 @@ public class MaintenancePanel extends Dialog {
 	 * This method returns the CoinDisplay.
 	 * @return the CoinDisplay.
 	 */
-	public CoinDisplay getCoinDisplay() {
+	public Display getCoinDisplay() {
 		return cDisplay;
 	}
 
@@ -202,7 +202,7 @@ public class MaintenancePanel extends Dialog {
 	 * This method returns the DrinksDisplay.
 	 * @return the DrinksDisplay.
 	 */
-	public DrinkDisplay getDrinksDisplay() {
+	public Display getDrinksDisplay() {
 		return dDisplay;
 	}
 
@@ -333,6 +333,7 @@ public class MaintenancePanel extends Dialog {
 	 * @param price the price of the Drinks.
 	 */
 	public void displayPrice(int price) {
-		dDisplay.getPriceDisplay().setValue(price + "C");
+		DrinkDisplay drinkDisplay = (DrinkDisplay) dDisplay;
+		drinkDisplay.getPriceDisplay().setValue(price + "C");
 	}
 }//End of class MaintenancePanel

@@ -148,7 +148,9 @@ public class MaintenanceController {
 		StoreController sctrl = mCtrl.getStoreController();
 		int curIdx = mpanel.getCurIdx();
 		sctrl.setPrice(curIdx, pr);
-		mpanel.getDrinksDisplay().getPriceDisplay().setValue(pr + "C");
+		Display display = mpanel.getDrinksDisplay();
+		DrinkDisplay drinkDisplay = (DrinkDisplay) display;
+		drinkDisplay.getPriceDisplay().setValue(pr + "C");
 	}
 
 	/**

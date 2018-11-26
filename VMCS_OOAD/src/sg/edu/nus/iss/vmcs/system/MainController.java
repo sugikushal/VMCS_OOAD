@@ -12,6 +12,7 @@ import java.io.IOException;
 import sg.edu.nus.iss.vmcs.customer.TransactionController;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.maintenance.MaintenanceController;
+import sg.edu.nus.iss.vmcs.store.PropertyLoader;
 import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.util.VMCSException;
 
@@ -61,13 +62,16 @@ public class MainController {
 	public void initialize() throws VMCSException {
 		try {
 			Environment.initialize(propertyFile);
-			CashPropertyLoader cashLoader =
-				new CashPropertyLoader(Environment.getCashPropFile());
-			DrinkPropertyLoader drinksLoader =
-				new DrinkPropertyLoader(Environment.getDrinkPropFile());
-			cashLoader.initialize();
-			drinksLoader.initialize();
-			storeCtrl = new StoreController(cashLoader, drinksLoader);
+			
+			PropertyLoader cashPropertyLoader =  new CashPropertyLoader(Environment.getCashPropFile());
+			cashPropertyLoader.initialize();
+			PropertyLoader drinkPropertyLoader = new DrinkPropertyLoader(Environment.getDrinkPropFile());
+			drinkPropertyLoader.initialize();
+			storeCtrl = new StoreController(cashPropertyLoader, drinkPropertyLoader);
+			
+//			storeCtrl = new StoreController(cashPropertyLoader);
+//			storeCtrl = new StoreController(cashPropertyLoader);
+			
 			storeCtrl.initialize();
 			simulatorCtrl = new SimulationController(this);
 			machineryCtrl = new MachineryController(this);

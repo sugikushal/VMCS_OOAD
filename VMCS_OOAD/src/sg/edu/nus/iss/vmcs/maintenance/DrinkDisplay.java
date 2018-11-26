@@ -8,6 +8,7 @@
 package sg.edu.nus.iss.vmcs.maintenance;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import sg.edu.nus.iss.vmcs.store.*;
 import sg.edu.nus.iss.vmcs.util.*;
@@ -44,15 +45,15 @@ public class DrinkDisplay extends Panel {
 		StoreItem[] items = storeCtrl.getStoreItems(Store.DRINK);
 
 		bi = new ButtonItemDisplay(TITLE, items, len);
-
-		bi.addListener(new DrinkDisplayListener(mCtrl));
+		ActionListener drinkDisplay = MaintenanceListenerFactory.createListener("Drink Display Listener", mCtrl);
+		bi.addListener(drinkDisplay);
 		bi.clear();
 		price = new LabelledDisplay("Brand Price", 4, LabelledDisplay.FLOW);
-
-		PriceDisplayListener pdl;
-
-		pdl = new PriceDisplayListener(mCtrl);
-		price.addListener(pdl);
+		ActionListener priceDisplayListen = MaintenanceListenerFactory.createListener("Price Display Listener", mCtrl);
+//		PriceDisplayListener pdl;
+//
+//		pdl = new PriceDisplayListener(mCtrl);
+		price.addListener(priceDisplayListen);
 		Panel tp = new Panel();
 		tp.setLayout(new FlowLayout(FlowLayout.CENTER));
 		tp.add(bi);

@@ -18,8 +18,10 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 
 import sg.edu.nus.iss.vmcs.store.Store;
+import sg.edu.nus.iss.vmcs.system.SimulatorListenerFactory;
 import sg.edu.nus.iss.vmcs.util.LabelledDisplay;
 import sg.edu.nus.iss.vmcs.util.VMCSException;
 import sg.edu.nus.iss.vmcs.util.WarningDisplay;
@@ -93,8 +95,10 @@ public class MaintenancePanel extends Dialog {
 		tpn.setLayout(new GridLayout(0, 1));
 
 		password = new LabelledDisplay("Password:", 30, LabelledDisplay.FLOW);
-		PasswordListener pl = new PasswordListener(mc.getAccessManager());
-		password.addListener(pl);
+		ActionListener passListen = MaintenanceListenerFactory.createListener("Password Listener", mc);
+		
+		//PasswordListener pl = new PasswordListener(mc.getAccessManager());
+		password.addListener(passListen);
 
 		Panel tp3 = new Panel();
 		validPswd = new WarningDisplay("Valid Password");
@@ -116,13 +120,18 @@ public class MaintenancePanel extends Dialog {
 		tp5.setLayout(new GridLayout(0, 1));
 
 		totalCash = new ButtonItem("Show Total Cash Held", 5, ButtonItem.FLOW);
-		TotalCashButtonListener tl;
+		
+		ActionListener totalCashListen =  MaintenanceListenerFactory.createListener("Total Cash Button Listener", mc);
+		//TotalCashButtonListener tl;
 
-		tl = new TotalCashButtonListener(mctrl);
-		totalCash.addListener(tl);
+		//here
+		//tl = new TotalCashButtonListener(mctrl);
+		totalCash.addListener(totalCashListen);
 
 		transferCash = new Button("Press to Collect All Cash");
-		transferCash.addActionListener(new TransferCashButtonListener(mctrl));
+		//here
+		ActionListener transferCashListen = MaintenanceListenerFactory.createListener("Transfer Cash Button Listener", mc);
+		transferCash.addActionListener(transferCashListen);
 
 		Panel tp6 = new Panel();
 		tp6.setLayout(new FlowLayout());
@@ -131,7 +140,8 @@ public class MaintenancePanel extends Dialog {
 		collectCash =
 			new LabelledDisplay("Collect Cash:", 5, LabelledDisplay.FLOW);
 		exitBtn = new Button("Press Here when Finished");
-		exitBtn.addActionListener(new ExitButtonListener(mctrl));
+		ActionListener exitButtonListen = MaintenanceListenerFactory.createListener("Exit Button Listener", mc);
+		exitBtn.addActionListener(exitButtonListen);
 
 		tp5.add(totalCash);
 		tp5.add(tp6);

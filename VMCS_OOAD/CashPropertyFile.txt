@@ -1,5 +1,5 @@
 #
-#Mon Oct 22 15:23:35 GMT+08:00 2018
+#Tue Nov 20 12:08:00 GMT+08:00 2018
 Name5=$1
 Name4=50C
 Name3=20C
@@ -11,11 +11,11 @@ NumOfItems=5
 Value3=20
 Value2=10
 Value1=5
-Quantity5=0
-Quantity4=2
-Quantity3=1
-Quantity2=0
-Quantity1=0
+Quantity5=2
+Quantity4=8
+Quantity3=7
+Quantity2=2
+Quantity1=2
 Weight5=42.2
 Weight4=35.0
 Weight3=18.5

@@ -8,6 +8,7 @@
 package sg.edu.nus.iss.vmcs.maintenance;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 import sg.edu.nus.iss.vmcs.store.*;
 import sg.edu.nus.iss.vmcs.util.VMCSException;
@@ -42,8 +43,8 @@ public class CoinDisplay extends Panel {
 		StoreItem[] items = storeCtrl.getStoreItems(Store.CASH);
 
 		bi = new ButtonItemDisplay(TITLE, items, len);
-
-		bi.addListener(new CoinDisplayListener(mCtrl));
+		ActionListener al = MaintenanceListenerFactory.createListener("Coin Display Listener", mctrl);
+		bi.addListener(al);
 
 		bi.clear();
 

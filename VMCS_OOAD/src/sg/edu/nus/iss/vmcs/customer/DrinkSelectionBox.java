@@ -11,6 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Panel;
+import java.awt.event.ActionListener;
 
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.DrinksStoreItem;
@@ -45,16 +46,28 @@ public class DrinkSelectionBox extends Panel{
 		drinkSelectionItems=new DrinkSelectionItem[drinkStoreSize];
 		
 		setLayout(new GridBagLayout());
+		
+		
+		DrinkSelectionItemBuilder disBuilder = new DrinkSelectionItemBuilder();
+		Director director = new Director(disBuilder);
+		
 		for(int i=0;i<drinkStoreItems.length;i++){
-			StoreItem storeItem=drinkStoreItems[i];
+			disBuilder.setId(i);
+			director.constructBuilder(drinkStoreItems[i]);
+			/*StoreItem storeItem=drinkStoreItems[i];
 			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)storeItem;
 			StoreObject storeObject=drinksStoreItem.getContent();
 			DrinksBrand drinksBrand=(DrinksBrand)storeObject;
 			String drinksName=drinksBrand.getName();
 			int drinksPrice=drinksBrand.getPrice();
-			int drinksQuantity=drinksStoreItem.getQuantity();
-			drinkSelectionItems[i]=new DrinkSelectionItem(i,drinksName,drinksPrice,drinksQuantity,true,false);
-			drinkSelectionItems[i].addListener(new DrinkSelectionListener(txCtrl,i));
+			int drinksQuantity=drinksStoreItem.getQuantity();*/
+			
+			/*drinkSelectionItems[i]=new DrinkSelectionItem(i,drinksName,drinksPrice,drinksQuantity,true,false);*/
+			drinkSelectionItems[i]=disBuilder.getResult();
+			//here
+			ActionListener drinkSelectionListener = CustomerListenerFactory.createListener(txCtrl, "Drink Selection Listener",i);
+			drinkSelectionItems[i].addListener(drinkSelectionListener);
+/*			drinkSelectionItems[i].addListener(new DrinkSelectionListener(txCtrl,i));*/
 			add(drinkSelectionItems[i],new GridBagConstraints(0,i,1,1,1.0,0.0,
 				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 				    new Insets(5,0,0,0),10,0));  

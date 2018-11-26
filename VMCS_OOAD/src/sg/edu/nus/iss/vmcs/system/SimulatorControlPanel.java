@@ -78,16 +78,11 @@ public class SimulatorControlPanel extends Frame {
 
         add (createPanelLabel());
 
-        addButton(SIMUL_BEGIN, L_SIMUL_BEGIN,
-		          new BeginSimulationButtonListener(simulationCtrl));
-        addButton(ACT_CUSTOMER,  L_ACT_CUSTOMER,
-		          new ActivateCustomerPanelButtonListener(simulationCtrl));
-        addButton(ACT_MAINTAINER, L_ACT_MAINTAINER,
-		          new ActivateMaintainerPanelButtonListener(simulationCtrl));
-        addButton(ACT_MACHINERY,  L_ACT_MACHINERY,
-		          new ActivateMachineryPanelButtonListener(simulationCtrl));
-        addButton(SIMUL_END,  L_SIMUL_END,
-		          new EndSimulationButtonListener(mainCtrl));
+        addButton(SIMUL_BEGIN, L_SIMUL_BEGIN);
+        addButton(ACT_CUSTOMER,  L_ACT_CUSTOMER);
+        addButton(ACT_MAINTAINER, L_ACT_MAINTAINER);
+        addButton(ACT_MACHINERY,  L_ACT_MACHINERY);
+        addButton(SIMUL_END,  L_SIMUL_END);
 
         pack();
         frameWidth=this.getWidth();
@@ -129,7 +124,10 @@ public class SimulatorControlPanel extends Frame {
      * @param label the label of the button.
      * @param l the action listener for the button.
      */
-    private void addButton (int id, String label, ActionListener l) {
+    private void addButton (int id, String label) {
+    	
+    	ActionListener l = SimulatorListenerFactory.createListener(label, simulationCtrl);
+    	
         Button b = new Button (label);
         b.setBackground(Color.white);
         b.setForeground(Color.blue);

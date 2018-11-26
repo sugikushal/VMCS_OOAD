@@ -11,6 +11,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Panel;
+import java.awt.event.ActionListener;
 
 import sg.edu.nus.iss.vmcs.store.CashStore;
 import sg.edu.nus.iss.vmcs.store.CashStoreItem;
@@ -44,18 +45,24 @@ public class CoinInputBox extends Panel{
 		StoreItem[] cashStoreItems=storeCtrl.getStore(Store.CASH).getItems();
 		
 		btnCoinButton=new CoinButton[cashStoreSize+1];
-		CoinInputListener coinInputListener=new CoinInputListener(txCtrl.getCoinReceiver());
-		
+		//here
+		/*CoinInputListener coinInputListener=new CoinInputListener(txCtrl.getCoinReceiver());*/
+		ActionListener coinInputListener = CustomerListenerFactory.createListener(txCtrl, "Coin Input Listener",0);
 		setLayout(new GridBagLayout());
+		
+		CoinButtonBuilder cbBuilder = new CoinButtonBuilder();
+		Director director = new Director(cbBuilder);
 		for(int i=0;i<cashStoreItems.length;i++){
-			StoreItem storeItem=cashStoreItems[i];
+			director.constructBuilder(cashStoreItems[i]);
+			/*StoreItem storeItem=cashStoreItems[i];
 			CashStoreItem cashStoreItem=(CashStoreItem)storeItem;
 			StoreObject storeObject=cashStoreItem.getContent();
 			Coin coin=(Coin)storeObject;
 			String coinName=coin.getName();
 			int coinValue=coin.getValue();
-			double coinWeight=coin.getWeight();
-			btnCoinButton[i]=new CoinButton(coinName,coinValue,coinWeight);
+			double coinWeight=coin.getWeight();*/
+			/*btnCoinButton[i]=new CoinButton(coinName,coinValue,coinWeight);*/
+			btnCoinButton[i]=cbBuilder.getResult();
 			btnCoinButton[i].addActionListener(coinInputListener);
 			add(btnCoinButton[i],new GridBagConstraints(i,1,1,1,1.0,0.0,
 				    GridBagConstraints.EAST,GridBagConstraints.HORIZONTAL,

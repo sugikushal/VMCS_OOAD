@@ -28,6 +28,7 @@ import java.awt.Insets;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -121,8 +122,9 @@ public class CustomerPanel extends Dialog {
 		
 		coinInputBox=new CoinInputBox(txCtrl);
 		drinkSelectionBox=new DrinkSelectionBox(txCtrl);
-		TerminateButtonListener terminateButtonListener=new TerminateButtonListener(txCtrl);
-		
+		//here
+		/*TerminateButtonListener terminateButtonListener=new TerminateButtonListener(txCtrl);*/
+		ActionListener terminateButtonListener = CustomerListenerFactory.createListener(txCtrl,"Terminate Button Listener",0);
 		coinInputBox.setActive(false);
 		drinkSelectionBox.setActive(true);
 		

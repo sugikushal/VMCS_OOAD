@@ -53,7 +53,7 @@ public class CoinInputBox extends Panel{
 		CoinButtonBuilder cbBuilder = new CoinButtonBuilder();
 		Director director = new Director(cbBuilder);
 		for(int i=0;i<cashStoreItems.length;i++){
-			director.constructBuilder(cashStoreItems[i]);
+			director.construct(cashStoreItems[i]);
 			/*StoreItem storeItem=cashStoreItems[i];
 			CashStoreItem cashStoreItem=(CashStoreItem)storeItem;
 			StoreObject storeObject=cashStoreItem.getContent();

@@ -9,11 +9,11 @@ public class Director {
 		this.builder = builder;
 	}
 	
-	public void constructBuilder( StoreItem storeItem) {
-		builder.setStoreItem(storeItem);
-		builder.setStoreItemType();
-		builder.setStoreObject();
-		builder.setObjectProperties();
+	public void construct( StoreItem storeItem) {
+		builder.buildPartStoreItem(storeItem);
+		builder.buildPartStoreItemType();
+		builder.buildPartStoreObject();
+		builder.buildPartObjectProperties();
 		System.out.println("Inside Director");
 	}
 

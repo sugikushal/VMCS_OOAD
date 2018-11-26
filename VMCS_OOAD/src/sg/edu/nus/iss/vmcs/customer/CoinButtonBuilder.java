@@ -16,22 +16,22 @@ public class CoinButtonBuilder implements Builder {
 	private double coinWeight;
 	
 	@Override
-	public void setStoreItem(StoreItem storeItem) {
+	public void buildPartStoreItem(StoreItem storeItem) {
 		this.storeItem = storeItem;
 	}
 
 	@Override
-	public void setStoreItemType() {
+	public void buildPartStoreItemType() {
 		this.cashStoreItem = (CashStoreItem)storeItem;
 	}
 
 	@Override
-	public void setStoreObject() {
+	public void buildPartStoreObject() {
 		this.storeObject = cashStoreItem.getContent();
 	}
 
 	@Override
-	public void setObjectProperties() {
+	public void buildPartObjectProperties() {
 		System.out.println("Inside coin input builder");
 		this.coin = (Coin)storeObject;
 		this.coinName = coin.getName();

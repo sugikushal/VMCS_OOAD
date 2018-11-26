@@ -53,7 +53,7 @@ public class DrinkSelectionBox extends Panel{
 		
 		for(int i=0;i<drinkStoreItems.length;i++){
 			disBuilder.setId(i);
-			director.constructBuilder(drinkStoreItems[i]);
+			director.construct(drinkStoreItems[i]);
 			/*StoreItem storeItem=drinkStoreItems[i];
 			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)storeItem;
 			StoreObject storeObject=drinksStoreItem.getContent();

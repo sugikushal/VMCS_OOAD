@@ -16,24 +16,24 @@ public class DrinkSelectionItemBuilder implements Builder {
 	private int id;
 	
 	@Override
-	public void setStoreItem(StoreItem storeItem) {
+	public void buildPartStoreItem(StoreItem storeItem) {
 		this.storeItem = storeItem;
 		
 	}
 	
 	@Override
-	public void setStoreItemType() {
+	public void buildPartStoreItemType() {
 		this.drinkStoreItem = (DrinksStoreItem)storeItem;
 	}
 
 	@Override
-	public void setStoreObject() {
+	public void buildPartStoreObject() {
 		this.storeObject = drinkStoreItem.getContent();
 		
 	}
 
 	@Override
-	public void setObjectProperties() {
+	public void buildPartObjectProperties() {
 		System.out.println("Inside Drink selection Builder");
 		this.drinkBrand = (DrinksBrand)storeObject;
 		this.drinkName = drinkBrand.getName();

@@ -10,9 +10,6 @@ public class DrinkSelectionItemBuilder implements Builder {
 	private DrinksStoreItem drinkStoreItem;
 	private StoreObject storeObject;
 	private DrinksBrand drinkBrand;
-	private String drinkName;
-	private int price;
-	private int quantity;
 	private int id;
 	
 	@Override
@@ -36,9 +33,6 @@ public class DrinkSelectionItemBuilder implements Builder {
 	public void buildPartObjectProperties() {
 		System.out.println("Inside Drink selection Builder");
 		this.drinkBrand = (DrinksBrand)storeObject;
-		this.drinkName = drinkBrand.getName();
-		this.price = drinkBrand.getPrice();
-		this.quantity = drinkStoreItem.getQuantity();
 	}
 	
 	public void setId(int id) {
@@ -46,7 +40,7 @@ public class DrinkSelectionItemBuilder implements Builder {
 	}
 	
 	public DrinkSelectionItem getResult() {
-		return new DrinkSelectionItem(id,drinkName,price,quantity,true,false);
+		return new DrinkSelectionItem(id,drinkBrand.getName(),drinkBrand.getPrice(),drinkStoreItem.getQuantity(),true,false);
 	}
 
 }

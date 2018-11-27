@@ -11,9 +11,6 @@ public class CoinButtonBuilder implements Builder {
 	private CashStoreItem cashStoreItem;
 	private StoreObject storeObject;
 	private Coin coin;
-	private String coinName;
-	private int coinValue;
-	private double coinWeight;
 	
 	@Override
 	public void buildPartStoreItem(StoreItem storeItem) {
@@ -34,14 +31,11 @@ public class CoinButtonBuilder implements Builder {
 	public void buildPartObjectProperties() {
 		System.out.println("Inside coin input builder");
 		this.coin = (Coin)storeObject;
-		this.coinName = coin.getName();
-		this.coinValue = coin.getValue();
-		this.coinWeight = coin.getWeight();
-		
+	
 	}
 	
 	public CoinButton getResult() {
-		return new CoinButton(coinName,coinValue,coinWeight);
+		return new CoinButton(coin.getName(),coin.getValue(),coin.getWeight());
 	}
 
 }

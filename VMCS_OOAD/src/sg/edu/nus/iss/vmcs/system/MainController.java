@@ -63,10 +63,16 @@ public class MainController {
 		try {
 			Environment.initialize(propertyFile);
 			
-			PropertyLoader cashPropertyLoader =  new CashPropertyLoader(Environment.getCashPropFile());
+			CashPropertyLoader cashPropertyLoader =  new CashPropertyLoader(Environment.getCashPropFile());
+			cashPropertyLoader.setPropertyType(0);
+			System.out.println("File type loader option selected for Cash");
 			cashPropertyLoader.initialize();
-			PropertyLoader drinkPropertyLoader = new DrinkPropertyLoader(Environment.getDrinkPropFile());
+			System.out.println("Cash property loader file initialized");
+			DrinkPropertyLoader drinkPropertyLoader = new DrinkPropertyLoader(Environment.getDrinkPropFile());
+			drinkPropertyLoader.setPropertyType(0);
+			System.out.println("File type loader option selected for Drink");
 			drinkPropertyLoader.initialize();
+			System.out.println("Drink property loader file initialized");
 			storeCtrl = new StoreController(cashPropertyLoader, drinkPropertyLoader);
 			
 //			storeCtrl = new StoreController(cashPropertyLoader);

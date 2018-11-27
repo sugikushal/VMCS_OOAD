@@ -53,18 +53,22 @@ public interface PropertyLoader {
 	 * @param numItems the number of items.
 	 */
 	public void setNumOfItems(int numItems);
+	
+	public String getValue(String key);
+	
+	public void setValue(String key, String value);
 
-	/**
+/*	*//**
 	 * This method reads the data from the hash table and creates a StoreItem.
 	 * @param index the index of the store item.
 	 * @return StoreItem the store item of the given index.
-	 */
+	 *//*
 	public StoreItem getItem (int index);
 
-	/**
+	*//**
 	 * This method updates the hash table with the data from the StoreItem.
 	 * @param index the index of the item.
 	 * @param item the item to be saved.
-	 */
-	public void setItem (int index, StoreItem item);
+	 *//*
+	public void setItem (int index, StoreItem item);*/
 }//End of interface PropertyLoader

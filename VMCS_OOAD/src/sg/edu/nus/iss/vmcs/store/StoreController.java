@@ -9,6 +9,10 @@ package sg.edu.nus.iss.vmcs.store;
 
 import java.io.IOException;
 
+import sg.edu.nus.iss.vmcs.system.CashPropertyLoader;
+import sg.edu.nus.iss.vmcs.system.DrinkPropertyLoader;
+import sg.edu.nus.iss.vmcs.system.StoreProperty;
+
 /**
  * This control object manages changes in CashStore attributes and 
  * the DrinksStore attributes.
@@ -30,8 +34,8 @@ public class StoreController {
 	private CashStore cStore;
 	private DrinksStore dStore;
 
-	private PropertyLoader cashLoader;
-	private PropertyLoader drinksLoader;
+	private CashPropertyLoader cashLoader;
+	private DrinkPropertyLoader drinksLoader;
 
 	/**
 	 * This constructor creates an instance of StoreController object.
@@ -39,8 +43,8 @@ public class StoreController {
 	 * @param drinksLoader the drinks loader.
 	 */
 	public StoreController(
-		PropertyLoader cashLoader,
-		PropertyLoader drinksLoader) {
+			CashPropertyLoader cashLoader,
+			DrinkPropertyLoader drinksLoader) {
 		this.cashLoader = cashLoader;
 		this.drinksLoader = drinksLoader;
 	}

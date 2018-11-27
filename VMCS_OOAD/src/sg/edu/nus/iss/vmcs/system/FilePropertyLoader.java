@@ -28,7 +28,7 @@ import sg.edu.nus.iss.vmcs.store.*;
  * @author Olivo Miotto, Pang Ping Li
  */
 
-public abstract class FilePropertyLoader implements PropertyLoader {
+public  class FilePropertyLoader implements PropertyLoader {
 	private static final String PROP_NUM_ITEMS = "NumOfItems";
 
 	private Properties prop;
@@ -88,20 +88,20 @@ public abstract class FilePropertyLoader implements PropertyLoader {
 	 * @param index the index of the StoreItem.
 	 * @return the store item of the given index.
 	 */
-	public abstract StoreItem getItem(int index);
-
-	/**
-	 * This method updates the hash table with data from the StoreItem.
-	 * @param index the index of the StoreItem.
-	 * @param item the StoreItem.
-	 */
-	public abstract void setItem(int index, StoreItem item);
- 
-	/**
-	 * This method retrieve the value from the hash table.
-	 * @param key the key.
-	 * @return the value of the given key.
-	 */
+//	public abstract StoreItem getItem(int index);
+//
+//	/**
+//	 * This method updates the hash table with data from the StoreItem.
+//	 * @param index the index of the StoreItem.
+//	 * @param item the StoreItem.
+//	 */
+//	public abstract void setItem(int index, StoreItem item);
+// 
+//	/**
+//	 * This method retrieve the value from the hash table.
+//	 * @param key the key.
+//	 * @return the value of the given key.
+//	 */
 	public String getValue(String key) {
 		return prop.getProperty(key);
 	}

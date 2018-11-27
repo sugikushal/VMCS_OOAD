@@ -8,6 +8,8 @@
 package sg.edu.nus.iss.vmcs.system;
 
 
+import java.io.IOException;
+
 import sg.edu.nus.iss.vmcs.store.*;
 
 /**
@@ -17,18 +19,31 @@ import sg.edu.nus.iss.vmcs.store.*;
  * @author Olivo Miotto, Pang Ping Li
  */
 
-public class DrinkPropertyLoader extends FilePropertyLoader {
+public class DrinkPropertyLoader extends StoreProperty {
 
 	private static final String NAME_LABEL     = "Name";
 	private static final String PRICE_LABEL    = "Price";
 	private static final String QUANTITY_LABEL = "Quantity";
+	private static final String STORE_TYPE = "Drink";
+	private String filename;
 
 	/**
 	 * This constructor creates an instance of the DrinkPropertyLoader object.
 	 * @param filen the file name of the drink property file.
 	 */
-	public DrinkPropertyLoader(String filen) {
-		super(filen);
+	public DrinkPropertyLoader(String filename) {
+		super(filename);
+		this.filename=filename;
+	}
+
+	public void setPropertyType(int type) {
+		switch(type) {
+		case 0:
+			setPropertyLoader(new FilePropertyLoader(filename));
+			break;
+		default:
+			setPropertyLoader(new FilePropertyLoader(filename));
+		}
 	}
 
 	/**
@@ -41,15 +56,15 @@ public class DrinkPropertyLoader extends FilePropertyLoader {
 		DrinksBrand brand = new DrinksBrand();
 
 		String name = new String(NAME_LABEL + idx);
-		String value = getValue(name);
+		String value = getPropertyLoader().getValue(name);
 		brand.setName(value);
 
 		name = new String(PRICE_LABEL + idx);
-		value = getValue(name);
+		value = getPropertyLoader().getValue(name);
 		brand.setPrice(Integer.parseInt(value));
 
 		name = new String(QUANTITY_LABEL + idx);
-		value = getValue(name);
+		value = getPropertyLoader().getValue(name);
 		int qty = Integer.parseInt(value);
 
 		DrinksStoreItem item = new DrinksStoreItem(brand, qty);
@@ -68,13 +83,36 @@ public class DrinkPropertyLoader extends FilePropertyLoader {
 		DrinksStoreItem item = (DrinksStoreItem) drinksItem;
 		DrinksBrand brand = (DrinksBrand) item.getContent();
 		String itn = new String(NAME_LABEL + idx);
-		setValue(itn, brand.getName());
+		getPropertyLoader().setValue(itn, brand.getName());
 
 		itn = new String(PRICE_LABEL + idx);
-		setValue(itn, String.valueOf(brand.getPrice()));
+		getPropertyLoader().setValue(itn, String.valueOf(brand.getPrice()));
 
 		itn = new String(QUANTITY_LABEL + idx);
-		setValue(itn, String.valueOf(item.getQuantity()));
+		getPropertyLoader().setValue(itn, String.valueOf(item.getQuantity()));
 
 	}
+	
+
+	public void setNumOfItems(int numItems) {
+		getPropertyLoader().setNumOfItems(numItems);
+		
+	}
+
+	
+	public int getNumOfItems() {
+		return getPropertyLoader().getNumOfItems();
+	}
+	
+	public void saveProperty() throws IOException {
+		getPropertyLoader().saveProperty();
+		
+	}
+
+	
+	public void initialize() throws IOException {
+		getPropertyLoader().initialize();
+		
+	}
+	
 }//End of class DrinkPropertyLoader

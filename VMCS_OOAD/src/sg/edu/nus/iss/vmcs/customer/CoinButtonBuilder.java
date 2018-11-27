@@ -5,7 +5,7 @@ import sg.edu.nus.iss.vmcs.store.Coin;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
 import sg.edu.nus.iss.vmcs.store.StoreObject;
 
-public class CoinButtonBuilder implements Builder {
+public class CoinButtonBuilder extends Builder {
 	
 	private StoreItem storeItem;
 	private CashStoreItem cashStoreItem;

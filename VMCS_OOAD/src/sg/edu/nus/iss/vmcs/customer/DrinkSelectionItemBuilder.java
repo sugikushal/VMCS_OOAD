@@ -5,7 +5,7 @@ import sg.edu.nus.iss.vmcs.store.DrinksStoreItem;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
 import sg.edu.nus.iss.vmcs.store.StoreObject;
 
-public class DrinkSelectionItemBuilder implements Builder {
+public class DrinkSelectionItemBuilder extends Builder {
 	private StoreItem storeItem;
 	private DrinksStoreItem drinkStoreItem;
 	private StoreObject storeObject;

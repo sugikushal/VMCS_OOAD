@@ -7,10 +7,13 @@
  */
 package sg.edu.nus.iss.vmcs.store;
 
+import java.util.Observable;
+
 /**
- * This entity object implements a generic storage item class&#46; It performs actions like;
- * returning content (Store Item identification), setting quantity, returning quantity,
- * increment quantity, decrement (release) quantity&#46;
+ * This entity object implements a generic storage item class&#46; It performs
+ * actions like; returning content (Store Item identification), setting
+ * quantity, returning quantity, increment quantity, decrement (release)
+ * quantity&#46;
  *
  * @see CashStore
  * @see CashStoreItem
@@ -25,13 +28,14 @@ package sg.edu.nus.iss.vmcs.store;
  * @version 3.0 5/07/2003
  * @author Olivo Miotto, Pang Ping Li
  */
-public class StoreItem {
+public class StoreItem extends Observable {
 	private StoreObject content;
 	private int quantity;
 
 	/**
 	 * This constructor creates an instance of StoreItem.
-	 * @param content the content of the StoreItem.
+	 * 
+	 * @param content  the content of the StoreItem.
 	 * @param quantity the quantity of the content.
 	 */
 	public StoreItem(StoreObject content, int quantity) {
@@ -41,6 +45,7 @@ public class StoreItem {
 
 	/**
 	 * This method returns the content of the StoreItem.
+	 * 
 	 * @return the StoreObject.
 	 */
 	public StoreObject getContent() {
@@ -49,6 +54,7 @@ public class StoreItem {
 
 	/**
 	 * This method sets the Store Object held by the Store Item.
+	 * 
 	 * @param ct the StoreObject.
 	 */
 	public void setContent(StoreObject ct) {
@@ -57,14 +63,18 @@ public class StoreItem {
 
 	/**
 	 * This method sets the total number of StoreItem held.
+	 * 
 	 * @param quantity the number of StoreItem.
 	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
 	 * This method returns the total number of StoreItem held&#46;
+	 * 
 	 * @return the number of StoreItem.&#46;
 	 */
 	public int getQuantity() {
@@ -77,14 +87,17 @@ public class StoreItem {
 	public void store() {
 		quantity++;
 	}
-	
+
 	/**
 	 * This method decrease the quantity by 1 but not less than 0.
 	 */
 	public void decrement() {
+//		DrinksBrand brand = (DrinksBrand) content;
 		quantity--;
 		if (quantity < 0)
 			quantity = 0;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -92,5 +105,7 @@ public class StoreItem {
 	 */
 	public void increment() {
 		quantity++;
+		setChanged();
+		notifyObservers();
 	}
-}//End of class StoreItem
+}// End of class StoreItem

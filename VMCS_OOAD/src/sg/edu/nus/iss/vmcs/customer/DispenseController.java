@@ -7,6 +7,9 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
@@ -20,78 +23,86 @@ import sg.edu.nus.iss.vmcs.util.VMCSException;
  * @author Team SE16T5E
  * @version 1.0 2008-10-01
  */
-public class DispenseController {
-    private TransactionController txCtrl;
-    private int selection=0;
+public class DispenseController implements Observer {
 	
-    /**
-     * This constructor creates an instance of the object.
-     * @param txCtrl the Transaction Controller
-     */
-    public DispenseController(TransactionController txCtrl){
-    	this.txCtrl=txCtrl;
-    }
-    
-    /**
+	private TransactionController txCtrl;
+
+	private String drinkname;
+	private int quantity;
+	private int price;
+	
+	private int brandId;
+
+	private int selection = 0;
+
+	/**
+	 * This constructor creates an instance of the object.
+	 * @param txCtrl the Transaction Controller
+	 */
+	public DispenseController(TransactionController txCtrl) {
+		this.txCtrl = txCtrl;
+	}
+
+	/**
      * This method updates the whole Drink Selection Box with current names, stocks and prices.
-     */
-	public void updateDrinkPanel(){
-		CustomerPanel custPanel=txCtrl.getCustomerPanel();
-		if(custPanel==null){
+	 */
+	public void updateDrinkPanel() {
+		CustomerPanel custPanel = txCtrl.getCustomerPanel();
+		if (custPanel == null) {
 			return;
 		}
 		updateDrinkSelection(-1);
-		int storeSize=txCtrl.getMainController().getStoreController().getStoreSize(Store.DRINK);
-		for(int i=0;i<storeSize;i++){
-			StoreItem storeItem=txCtrl.getMainController().getStoreController().getStoreItem(Store.DRINK,i);
-			int quantity=storeItem.getQuantity();
-			DrinksBrand drinksBrand=(DrinksBrand)storeItem.getContent();
-			String name=drinksBrand.getName();
-			int price=drinksBrand.getPrice();
+		int storeSize = txCtrl.getMainController().getStoreController().getStoreSize(Store.DRINK);
+		for (int i = 0; i < storeSize; i++) {
+			StoreItem storeItem = txCtrl.getMainController().getStoreController().getStoreItem(Store.DRINK, i);
+			int quantity = storeItem.getQuantity();
+			DrinksBrand drinksBrand = (DrinksBrand) storeItem.getContent();
+			String name = drinksBrand.getName();
+			int price = drinksBrand.getPrice();
 			custPanel.getDrinkSelectionBox().update(i, quantity, price, name);
 		}
 	}
-	
+
 	/**
      * This method is used to display the latest stock and price information on the Drink Selection Box.
 	 * @param index
 	 */
-	public void updateDrinkSelection(int index){
-		this.selection=index;
+	public void updateDrinkSelection(int index) {
+		this.selection = index;
 	}
-	
+
 	/**
 	 * This method will be used to activate or deactivate (as indicated through a parameter)
 	 * the Drink Selection Box so that transactions can continue or will be disallowed.
 	 * @param allow TRUE to activate, FALSE to deactivate the Drink Selection Box.
 	 */
-	public void allowSelection(boolean allow){
-		MainController mainCtrl=txCtrl.getMainController();
-		CustomerPanel custPanel=txCtrl.getCustomerPanel();
-		if(custPanel==null){
+	public void allowSelection(boolean allow) {
+		MainController mainCtrl = txCtrl.getMainController();
+		CustomerPanel custPanel = txCtrl.getCustomerPanel();
+		if (custPanel == null) {
 			return;
 		}
-		DrinkSelectionBox drinkSelectionBox=custPanel.getDrinkSelectionBox();
-		StoreController storeCtrl=mainCtrl.getStoreController();
-		int storeSize=storeCtrl.getStoreSize(Store.DRINK);
-		for(int i=0;i<storeSize;i++){
-			drinkSelectionBox.setState(i,allow);
-			StoreItem storeItem=storeCtrl.getStoreItem(Store.DRINK, i);
-			int quantity=storeItem.getQuantity();
-			if(quantity==0)
-				drinkSelectionBox.setItemState(i,true);
+		DrinkSelectionBox drinkSelectionBox = custPanel.getDrinkSelectionBox();
+		StoreController storeCtrl = mainCtrl.getStoreController();
+		int storeSize = storeCtrl.getStoreSize(Store.DRINK);
+		for (int i = 0; i < storeSize; i++) {
+			drinkSelectionBox.setState(i, allow);
+			StoreItem storeItem = storeCtrl.getStoreItem(Store.DRINK, i);
+			int quantity = storeItem.getQuantity();
+			if (quantity == 0)
+				drinkSelectionBox.setItemState(i, true);
 		}
 	}
-	
+
 	/**
-	 * This method will be used to instruct the Can Collection Box to remove the 
+	 * This method will be used to instruct the Can Collection Box to remove the
 	 * drinks can shape or drink brand name from being displayed.
 	 */
-	public void ResetCan(){
-		selection=-1;
+	public void ResetCan() {
+		selection = -1;
 		txCtrl.getCustomerPanel().resetCan();
 	}
-	
+
 	/**
 	 * This method will be used to dispense a drink&#46;  It will:
 	 * <br>
@@ -105,25 +116,35 @@ public class DispenseController {
 	 * Transaction Controller&#46;
 	 * @param selectedBrand the selected brand&#46;
 	 */
-	public boolean dispenseDrink(int selectedBrand){
-		try{
+	public boolean dispenseDrink(int selectedBrand) {
+		try {
 			txCtrl.getMainController().getMachineryController().dispenseDrink(selectedBrand);
-			MainController mainCtrl=txCtrl.getMainController();
-			StoreController storeCtrl=mainCtrl.getStoreController();
-			StoreItem drinkStoreItem=storeCtrl.getStore(Store.DRINK).getStoreItem(selectedBrand);
-			StoreObject storeObject=drinkStoreItem.getContent();
-			DrinksBrand drinksBrand=(DrinksBrand)storeObject;
-			String drinksName=drinksBrand.getName();
-			int price=drinksBrand.getPrice();
-			int quantity=drinkStoreItem.getQuantity();
-			txCtrl.getCustomerPanel().setCan(drinksName);
+			MainController mainCtrl = txCtrl.getMainController();
+			StoreController storeCtrl = mainCtrl.getStoreController();
+			StoreItem drinkStoreItem = storeCtrl.getStore(Store.DRINK).getStoreItem(selectedBrand);
+			drinkStoreItem.addObserver(this);
+			brandId = selectedBrand;
+
+			StoreObject storeObject = drinkStoreItem.getContent();
+			DrinksBrand drinksBrand = (DrinksBrand) storeObject;
+			drinkname = drinksBrand.getName();
+			txCtrl.getCustomerPanel().setCan(drinkname);
+			
 			updateDrinkSelection(selectedBrand);
-			txCtrl.getCustomerPanel().getDrinkSelectionBox().update(selectedBrand, quantity, price, drinksName);
-		}
-		catch(VMCSException ex){
+			System.out.print(drinkname);
+			quantity = drinkStoreItem.getQuantity();
+			price = drinksBrand.getPrice();
+		} catch (VMCSException ex) {
 			txCtrl.terminateFault();
 			return false;
 		}
 		return true;
 	}
-}//End of class DispenseController
+
+	//observer update
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("Inside update " + drinkname);
+		txCtrl.getCustomerPanel().getDrinkSelectionBox().update(brandId, quantity, price, drinkname);
+	}
+}// End of class DispenseController

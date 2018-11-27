@@ -9,6 +9,10 @@ package sg.edu.nus.iss.vmcs.machinery;
 
 import sg.edu.nus.iss.vmcs.system.*;
 import sg.edu.nus.iss.vmcs.util.*;
+
+import java.util.Observable;
+import java.util.Observer;
+
 import sg.edu.nus.iss.vmcs.store.*;
 
 /**
@@ -17,10 +21,10 @@ import sg.edu.nus.iss.vmcs.store.*;
  * @version 3.0 5/07/2003
  * @author Olivo Miotto, Pang Ping Li
  */
-public class MachineryController {
-	/**This attribute reference to the MainController*/
+public class MachineryController implements Observer {
+	/** This attribute reference to the MainController */
 	public MainController mainCtrl;
-	/**This attribute reference to the StoreController*/
+	/** This attribute reference to the StoreController */
 	public StoreController storeCtrl;
 
 	private MachinerySimulatorPanel ml;
@@ -28,6 +32,7 @@ public class MachineryController {
 
 	/**
 	 * This constructor creates an instance of MachineryController.
+	 * 
 	 * @param mctrl the MainController.
 	 */
 	public MachineryController(MainController mctrl) {
@@ -37,6 +42,7 @@ public class MachineryController {
 
 	/**
 	 * This method returns the MainController.
+	 * 
 	 * @return the MainController.
 	 */
 	public MainController getMainController() {
@@ -45,6 +51,7 @@ public class MachineryController {
 
 	/**
 	 * This method creates the Door.
+	 * 
 	 * @throws VMCSException if fails to instantiate Door.
 	 */
 	public void initialize() throws VMCSException {
@@ -59,8 +66,8 @@ public class MachineryController {
 			ml.dispose();
 	}
 
-	/* ************************************************************
-	 * Panel methods
+	/*
+	 * ************************************************************ Panel methods
 	 */
 
 	/**
@@ -83,8 +90,7 @@ public class MachineryController {
 		boolean ds = isDoorClosed();
 
 		if (ds == false) {
-			MessageDialog msg =
-				new MessageDialog(ml, "Please Lock the Door before You Leave");
+			MessageDialog msg = new MessageDialog(ml, "Please Lock the Door before You Leave");
 			msg.setVisible(true);
 			return;
 		}
@@ -93,8 +99,8 @@ public class MachineryController {
 		scp.setActive(SimulatorControlPanel.ACT_MACHINERY, true);
 	}
 
-	/* ************************************************************
-	 * Door methods
+	/*
+	 * ************************************************************ Door methods
 	 */
 
 	/**
@@ -106,22 +112,25 @@ public class MachineryController {
 
 	/**
 	 * This method set the door state and display the door state.
-	 * @param state TRUE to set the state to open, otherwise, set the state to closed.
+	 * 
+	 * @param state TRUE to set the state to open, otherwise, set the state to
+	 *              closed.
 	 */
 	public void setDoorState(boolean state) {
 		door.setState(state);
 		displayDoorState();
-		
-		//Disable Activate Customer Panel Button
+
+		// Disable Activate Customer Panel Button
 		mainCtrl.getSimulatorControlPanel().setActive(SimulatorControlPanel.ACT_CUSTOMER, false);
 	}
 
-	/* ************************************************************
-	 * Display methods
+	/*
+	 * ************************************************************ Display methods
 	 */
 
 	/**
-	 * This method displays the current Door status (open or closed) on the Door Status display.
+	 * This method displays the current Door status (open or closed) on the Door
+	 * Status display.
 	 */
 	public void displayDoorState() {
 		if (ml == null)
@@ -130,9 +139,10 @@ public class MachineryController {
 	}
 
 	/**
-	 * This method update drink stock view&#46;
-	 * This method will get the stock values of drinks brands from the Drinks Store
-	 * and display them on the Machinery SimulatorPanel.
+	 * This method update drink stock view&#46; This method will get the stock
+	 * values of drinks brands from the Drinks Store and display them on the
+	 * Machinery SimulatorPanel.
+	 * 
 	 * @throws VMCSException if fail to update drinks store display.
 	 */
 	public void displayDrinkStock() throws VMCSException {
@@ -142,9 +152,10 @@ public class MachineryController {
 	}
 
 	/**
-	 * This method update coin stock view after transfer all cash&#46;
-	 * This method will get the stock values of coin denominations from the CashStore and
+	 * This method update coin stock view after transfer all cash&#46; This method
+	 * will get the stock values of coin denominations from the CashStore and
 	 * display them on the MachinerySimulatorPanel.
+	 * 
 	 * @throws VMCSException if fail to update cash store display.
 	 */
 	public void displayCoinStock() throws VMCSException {
@@ -153,13 +164,15 @@ public class MachineryController {
 		ml.getCashStoreDisplay().update();
 	}
 
-	/* ************************************************************
-	 * Interactions with the Store that need to update the display
+	/*
+	 * ************************************************************ Interactions
+	 * with the Store that need to update the display
 	 */
 
 	/**
 	 * This method will instruct the CashStore to store the Coin sent as input, and
 	 * update the display on the MachinerySimulatorPanel.
+	 * 
 	 * @throws VMCSException if fail to update cash store display.
 	 */
 	public void storeCoin(Coin c) throws VMCSException {
@@ -169,13 +182,16 @@ public class MachineryController {
 	}
 
 	/**
-	 * This method instructs the DrinksStore to dispense one drink, and then
-	 * updates the MachinerySimulatorPanel.&#46; It returns TRUE or FALSE to indicate
+	 * This method instructs the DrinksStore to dispense one drink, and then updates
+	 * the MachinerySimulatorPanel.&#46; It returns TRUE or FALSE to indicate
 	 * whether dispensing was successful.
+	 * 
 	 * @param idx the index of the drinks store item.
 	 * @throws VMCSException if fail to update cash store display.
 	 */
 	public void dispenseDrink(int idx) throws VMCSException {
+		StoreItem storeItem = storeCtrl.getStoreItem(Store.DRINK, idx);
+		storeItem.addObserver(this);
 		storeCtrl.dispenseDrink(idx);
 		if (ml != null)
 			ml.getCashStoreDisplay().update();
@@ -184,9 +200,10 @@ public class MachineryController {
 
 	/**
 	 * This method instructs the CashStore to issue a number of coins of a specific
-	 * denomination, and hen updates the MachinerySimulatorPanel&#46; It returns 
+	 * denomination, and hen updates the MachinerySimulatorPanel&#46; It returns
 	 * TRUE or FALSE to indiate whether the change issue was successful.
-	 * @param idx the index of the cash store item.
+	 * 
+	 * @param idx        the index of the cash store item.
 	 * @param numOfCoins the number of coins to change.
 	 * @throws VMCSException if fail to update cash store display.
 	 */
@@ -195,13 +212,23 @@ public class MachineryController {
 		if (ml != null)
 			ml.getCashStoreDisplay().update();
 	}
-	
+
 	/**
 	 * This method refresh the MachinerySimulatorPanel.
 	 */
-	public void refreshMachineryDisplay(){
-		if(ml!=null){
+	public void refreshMachineryDisplay() {
+		if (ml != null) {
 			ml.refresh();
 		}
 	}
-}//End of class MachineryController
+
+	@Override
+	public void update(Observable o, Object arg) {
+		try {
+			System.out.println("Inside Update");
+			displayDrinkStock();
+		} catch (VMCSException e) {
+			e.printStackTrace();
+		}
+	}
+}// End of class MachineryController

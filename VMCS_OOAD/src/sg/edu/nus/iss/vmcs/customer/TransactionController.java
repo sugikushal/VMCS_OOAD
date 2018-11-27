@@ -155,7 +155,7 @@ public class TransactionController {
 		coinReceiver.storeCash();
 		dispenseCtrl.allowSelection(true);
 		
-		refreshMachineryDisplay();
+//		refreshMachineryDisplay();
 		System.out.println("CompleteTransaction: End");
 	}
 	
